@@ -13,14 +13,18 @@ wandb.init(project="prediccion-eolica")
 def train():
     print("Iniciando proceso de entrenamiento...")
 
-    # Rutas estándar dentro del contenedor 
-    data_path = '/app/data/Data_Eolica.csv'
-    model_output = '/app/data/modelo_random_forest.joblib'
+    # Buscamos la carpeta 'data' en la raíz del proyecto, sin importar dónde estemos
+    # Esto funcionará en GitHub Actions, Local y Docker
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    data_path = os.path.join(base_dir, 'data', 'Data_Eolica.csv')
+    model_output = os.path.join(base_dir, 'data', 'modelo_random_forest.joblib')
     
-    # Verificación de seguridad para novatos:
+    print(f"Buscando datos en: {data_path}") # Esto te ayudará a debuguear en GitHub
+
     if not os.path.exists(data_path):
         print(f"ERROR: No se encuentra el archivo en {data_path}")
-        print("Asegúrate de estar usando el comando -v correctamente.")
+        # Listamos los archivos para ver qué ve GitHub
+        print(f"Contenido de la carpeta actual: {os.listdir('.')}")
         return
 
     # 1. Carga y Limpieza
