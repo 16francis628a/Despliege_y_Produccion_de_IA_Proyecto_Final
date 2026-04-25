@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+joblib
+wandb
+flask
+gunicorn
+kafka-python
+prometheus_client

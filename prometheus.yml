@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 5s # Frecuencia de recolección de datos
+
+scrape_configs:
+  - job_name: 'eolica_monitoring'
+    static_configs:
+      - targets: ['eolica-app:5000'] # El nombre del servicio en Docker y su puerto
