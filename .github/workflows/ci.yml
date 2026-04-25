@@ -31,4 +31,4 @@ jobs:
 
     - name: Construir imagen de Docker
       run: |
-        docker build -t eolica-app:latest .
+        docker build -f Dockerfile.app -t eolica-app:latest .
