@@ -4,8 +4,10 @@ import time
 import random
 
 producer = KafkaProducer(
-    bootstrap_servers=['localhost:9092'], # Puerto externo
-    value_serializer=lambda v: json.dumps(v).encode('utf-8')
+    bootstrap_servers=['127.0.0.1:9092'], # Usa la IP local explícita
+    value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+    api_version=(2, 0, 2), # Fuerza la versión de la API para evitar el autodiscovery
+    request_timeout_ms=10000
 )
 
 print("Productor iniciado. Enviando datos de turbina...")

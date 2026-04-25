@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: eolica-app
-        image: franciscoareyuna/eolica-app:latest # en Docker Hub
-        imagePullPolicy: Always # Obliga a K8s a descargar la versión más nueva
+        image: franciscoareyuna/eolica-app:v1
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
         resources:

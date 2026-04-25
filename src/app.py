@@ -39,21 +39,24 @@ def kafka_consumer_thread():
     global ultimo_dato_kafka
     print("Hilo de Kafka iniciado...")
     
+    # Obtener el broker desde variable de entorno o usar default (local cluster)
+    kafka_broker = os.environ.get('KAFKA_BROKER', 'kafka-service:9092')
+    
     consumer = None
     while consumer is None:
         try:
             consumer = KafkaConsumer(
                 'datos_eolicos',
-                bootstrap_servers=['kafka:29092'],
-                auto_offset_reset='latest',
+                bootstrap_servers=[kafka_broker],
+                auto_offset_reset='earliest',  # Cambiar a 'earliest' para consumir desde el principio
                 enable_auto_commit=True,
-                group_id='eolica-group-v1',
+                group_id='eolica-group-v2',  # Cambiar group_id para evitar metadatos anteriores
                 value_deserializer=lambda x: json.loads(x.decode('utf-8')),
                 consumer_timeout_ms=1000
             )
-            print("Conectado exitosamente a Kafka")
+            print(f"Conectado exitosamente a Kafka en {kafka_broker}")
         except Exception as e:
-            print(f"Esperando a Kafka (29092)... reintentando en 5s")
+            print(f"Esperando a Kafka ({kafka_broker})... reintentando en 5s. Error: {e}")
             time.sleep(5)
 
     while True:
