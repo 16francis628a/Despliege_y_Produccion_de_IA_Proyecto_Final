@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eolica-service
+spec:
+  selector:
+    app: eolica-app
+  ports:
+    - protocol: TCP
+      port: 80       # Puerto externo
+      targetPort: 5000 # Puerto interno de Flask
+  type: LoadBalancer # Esto te dará una IP o localhost para entrar desde el navegador
