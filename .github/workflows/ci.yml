@@ -2,13 +2,13 @@ name: CI Proyecto Eólico
 
 on:
   push:
-    branches: [ "main" ] # Se ejecuta cuando subes cambios a la rama principal
-  pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
+    env:
+      WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }} # Necesario si wandb pide login
 
     steps:
     - name: Checkout del repositorio
@@ -23,12 +23,19 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install pytest
 
-    - name: Verificar Linting (opcional)
+    - name: Ejecutar Entrenamiento y Ver Métricas
       run: |
-        # Aquí podrías poner comandos para revisar errores de sintaxis
-        python -m compileall src/
+        # Ejecutamos el script y GitHub Actions imprimirá los print() en la consola
+        python src/train.py 
+
+    - name: Ejecutar Pruebas con Pytest
+      run: |
+        # Verificamos carga e inferencia del modelo recién generado
+        pytest tests/test_model.py
 
     - name: Construir imagen de Docker
+      if: success()
       run: |
         docker build -f Dockerfile.app -t eolica-app:latest .

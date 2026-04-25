@@ -65,6 +65,13 @@ def train():
     best_rf = grid_RF.best_estimator_
     y_pred = best_rf.predict(X_test)
     mse_test = mean_squared_error(y_test, y_pred)
+    
+    # Imprimir métricas para que aparezcan en el log de GitHub Actions
+    print(f"--- METRICAS DE ENTRENAMIENTO ---")
+    print(f"mse_test: {mse_test}")
+    print(f"best_n_estimators: {grid_RF.best_params_['n_estimators']}")
+    print(f"best_max_depth: {grid_RF.best_params_['max_depth']}")
+    print(f"---------------------------------")
 
     # 6. REGISTRO EN W&B
     wandb.log({
