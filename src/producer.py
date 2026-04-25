@@ -8,7 +8,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-print("🚀 Productor iniciado. Enviando datos de turbina...")
+print("Productor iniciado. Enviando datos de turbina...")
 
 try:
     while True:
@@ -20,7 +20,7 @@ try:
         }
         
         producer.send('datos_eolicos', data)
-        print(f"📤 Enviado: {data}")
+        print(f"Enviado: {data}")
         time.sleep(2)
 except KeyboardInterrupt:
     print("Producción detenida.")

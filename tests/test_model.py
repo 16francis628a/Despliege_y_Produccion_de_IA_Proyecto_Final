@@ -14,7 +14,7 @@ def test_model_loading():
     """Verifica que el modelo .joblib cargue correctamente"""
     model = joblib.load(MODEL_PATH)
     assert model is not None, "El modelo cargado es None"
-    # Verificamos que sea un RandomForest (o el estimador que uses)
+    # Verificamos que sea un RandomForest
     assert hasattr(model, 'predict'), "El objeto cargado no tiene el método predict"
 
 def test_model_prediction():
