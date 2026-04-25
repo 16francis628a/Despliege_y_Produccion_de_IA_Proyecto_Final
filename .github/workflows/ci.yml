@@ -1,0 +1,34 @@
+name: CI Proyecto Eólico
+
+on:
+  push:
+    branches: [ "main" ] # Se ejecuta cuando subes cambios a la rama principal
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Verificar Linting (opcional)
+      run: |
+        # Aquí podrías poner comandos para revisar errores de sintaxis
+        python -m compileall src/
+
+    - name: Construir imagen de Docker
+      run: |
+        docker build -t eolica-app:latest .
